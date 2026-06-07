@@ -190,7 +190,11 @@ func SaveConfig() error {
 
 // GetListenAddr 获取监听地址字符串
 func GetListenAddr() string {
-	return fmt.Sprintf("%s:%d", AppConfig.Server.Host, AppConfig.Server.Port)
+	host := AppConfig.Server.Host
+	if strings.Contains(host, ":") {
+		return fmt.Sprintf("[%s]:%d", host, AppConfig.Server.Port)
+	}
+	return fmt.Sprintf("%s:%d", host, AppConfig.Server.Port)
 }
 
 // GetUploadPath 获取上传目录的绝对路径
