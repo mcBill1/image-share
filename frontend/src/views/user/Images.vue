@@ -79,6 +79,7 @@
 import { ref, computed, onMounted } from 'vue'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
+import { copyToClipboard } from '@/utils/clipboard'
 
 const images = ref<any[]>([])
 const showPreview = ref(false)
@@ -160,10 +161,10 @@ function previewImage(image: any) {
 
 async function copyLink(image: any) {
   const fullUrl = window.location.origin + image.public_url
-  try {
-    await navigator.clipboard.writeText(fullUrl)
+  const ok = await copyToClipboard(fullUrl)
+  if (ok) {
     ElMessage.success('链接已复制')
-  } catch (error) {
+  } else {
     ElMessage.error('复制失败')
   }
 }
