@@ -53,6 +53,7 @@ import { useRoute } from 'vue-router'
 import { Upload } from '@element-plus/icons-vue'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
+import { copyToClipboard } from '@/utils/clipboard'
 
 const route = useRoute()
 const code = computed(() => route.params.code as string)
@@ -92,10 +93,10 @@ function handleUploadError(error: any) {
 
 async function copyLink(image: any) {
   const fullUrl = window.location.origin + image.public_url
-  try {
-    await navigator.clipboard.writeText(fullUrl)
+  const ok = await copyToClipboard(fullUrl)
+  if (ok) {
     ElMessage.success('链接已复制')
-  } catch (error) {
+  } else {
     ElMessage.error('复制失败')
   }
 }
@@ -129,12 +130,10 @@ onMounted(() => {
   margin: 0 0 10px 0;
   color: var(--el-text-color-primary);
 }
-
 .upload-header p {
   margin: 0;
   color: var(--el-text-color-secondary);
 }
-
 .invalid-message {
   text-align: center;
 }
@@ -147,24 +146,20 @@ onMounted(() => {
   margin: 0 0 15px 0;
   color: var(--el-text-color-secondary);
 }
-
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 15px;
 }
-
 .image-item {
   position: relative;
 }
-
 .preview-image {
   width: 100%;
   height: 120px;
   object-fit: cover;
   border-radius: 4px;
 }
-
 .image-actions {
   position: absolute;
   bottom: 0;
@@ -175,7 +170,6 @@ onMounted(() => {
   text-align: center;
   border-radius: 0 0 4px 4px;
 }
-
 .image-actions button {
   color: #fff;
 }
