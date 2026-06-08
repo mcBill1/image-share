@@ -117,6 +117,7 @@ import { ref, reactive, onMounted, onUnmounted, onActivated, onDeactivated, next
 import { Link, Loading } from '@element-plus/icons-vue'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
+import { copyToClipboard } from '@/utils/clipboard'
 
 const allTasks = ref<any[]>([])
 const displayTasks = ref<any[]>([])
@@ -280,10 +281,10 @@ function confirmDeleteTask(task: any) {
 
 async function copyLink(task: any) {
   const fullUrl = window.location.origin + '/upload/' + task.code
-  try {
-    await navigator.clipboard.writeText(fullUrl)
+  const ok = await copyToClipboard(fullUrl)
+  if (ok) {
     ElMessage.success('链接已复制')
-  } catch (error) {
+  } else {
     ElMessage.error('复制失败')
   }
 }
