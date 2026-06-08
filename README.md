@@ -263,6 +263,9 @@ http://your-domain.com/upload/{code}
 
 ### 构建
 
+可以优先使用**build.bat**构建
+**clean.bat**是用来清理残留的（编译中下载的一些东西）
+
 ```bash
 # 1. 构建前端
 cd frontend
@@ -595,6 +598,9 @@ Response format:
 - Node.js 18+
 
 ### Build
+
+It is recommended to use **build.bat** for building first.
+**clean.bat** is used to clean up residual files (such as temporary files downloaded during the build process).
 
 ```bash
 # 1. Build frontend
